@@ -1,0 +1,6 @@
+{
+  "name": "CivicFix",
+  "description": "Smart Citizen Issue Reporting & Resolution Management Platform. Report It. Track It. Fix It.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

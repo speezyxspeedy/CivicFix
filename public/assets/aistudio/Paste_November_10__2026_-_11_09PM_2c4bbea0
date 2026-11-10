@@ -1,0 +1,1176 @@
+# MASTER BUILD PROMPT — CIVICFIX
+## Smart Citizen Issue Reporting & Resolution Management Platform
+
+Act as a senior full-stack engineer, civic technology architect, database engineer, and premium SaaS UI/UX designer.
+
+Build a complete, functional web application named **CivicFix**.
+
+**Tagline: Report It. Track It. Fix It.**
+
+CivicFix is a digital civic issue reporting and resolution platform connecting citizens, administrators, and field workers.
+
+Citizens can report public infrastructure and neighbourhood problems with photographs and location details. Administrators can review complaints, identify duplicates, assign workers, manage priorities, and monitor resolutions. Field workers can view assigned tasks, update progress, and submit completion evidence.
+
+The product should be suitable for a college campus, residential community, or local civic organization.
+
+IMPORTANT:
+Build a complete working application, not just a static UI prototype. Every major feature must connect to real database operations.
+
+Do not use fake live complaint data in the actual workspace.
+
+==================================================
+1. STRICT TECHNOLOGY REQUIREMENTS
+==================================================
+
+Frontend:
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+Backend and database:
+- Supabase
+- PostgreSQL
+- Supabase Authentication
+- Supabase Realtime
+- Supabase Storage
+- PostgreSQL RPC functions
+
+Additional browser APIs:
+- File API
+- Geolocation API
+- Browser Notifications API
+- Native SVG and Canvas
+
+Do NOT use:
+- React
+- Next.js
+- Vue
+- Angular
+- Tailwind CSS
+- Bootstrap
+- Node.js backend
+- Python backend
+- Unnecessary frontend libraries
+
+Use the Supabase JavaScript SDK through a CDN.
+
+The application must be deployable as a static website on Netlify, Vercel, or similar hosting.
+
+Never expose the Supabase service_role key in frontend code.
+
+==================================================
+2. USER ROLES AND PERMISSIONS
+==================================================
+
+Create three separate application experiences.
+
+A. CITIZEN
+
+Citizens can:
+- Register and log in.
+- Submit civic complaints.
+- Upload issue photographs.
+- Add location and landmark.
+- Track complaint status.
+- View their complaint history.
+- Receive status updates.
+- Submit resolution feedback.
+
+B. ADMINISTRATOR
+
+Administrators can:
+- View all submitted complaints.
+- Review and verify complaints.
+- Reject invalid reports with a reason.
+- Identify potential duplicate reports.
+- Assign complaints to field workers.
+- Set priority and resolution deadlines.
+- Manage categories.
+- View analytics.
+- Monitor worker performance.
+- Review evidence.
+- Close resolved complaints.
+
+C. FIELD WORKER
+
+Field workers can:
+- View assigned complaints.
+- View complaint descriptions and locations.
+- Accept assigned tasks.
+- Update work status.
+- Add progress notes.
+- Upload before/after photographs.
+- Submit resolution details.
+- Mark work as completed for admin verification.
+
+IMPORTANT SECURITY RULE:
+
+Users must never be able to grant themselves administrator or field-worker privileges by editing frontend data.
+
+Create roles using an administrator-controlled database process.
+
+==================================================
+3. APPLICATION NAVIGATION
+==================================================
+
+Create a professional sidebar with role-specific navigation.
+
+CITIZEN:
+1. Home
+2. Report an Issue
+3. My Complaints
+4. Track Complaint
+5. Notifications
+6. Profile
+
+ADMIN:
+1. Overview
+2. All Complaints
+3. Review Queue
+4. Duplicate Reports
+5. Worker Assignment
+6. Field Operations
+7. Resolution Tracking
+8. Analytics
+9. Reports
+10. Categories
+11. Settings
+
+FIELD WORKER:
+1. My Assignments
+2. Active Tasks
+3. Completed Tasks
+4. Location Details
+5. Notifications
+6. Profile
+
+Every navigation item must work.
+
+==================================================
+4. CITIZEN ISSUE REPORTING
+==================================================
+
+Create a simple mobile-first complaint submission workflow.
+
+Form fields:
+
+- Issue title
+- Issue category
+- Detailed description
+- Location name
+- Street or landmark
+- City
+- Area or locality
+- Postal code (optional)
+- GPS latitude and longitude (optional)
+- Photographs
+- Additional notes
+
+Issue categories:
+
+1. Road Damage / Potholes
+2. Garbage Collection
+3. Drainage Problems
+4. Water Leakage
+5. Broken Streetlights
+6. Public Infrastructure
+7. Street Cleaning
+8. Traffic Signal Problems
+9. Public Safety Infrastructure
+10. Other
+
+Allow users to upload multiple photographs.
+
+Add an optional button:
+
+"Use My Current Location"
+
+Use the browser Geolocation API.
+
+IMPORTANT:
+- Ask for location permission only after an explicit user action.
+- Never access location silently.
+- Allow manual location entry.
+- Do not prevent complaint submission when GPS permission is denied.
+- Clearly explain that the user should submit only genuine observations.
+
+After submission:
+
+1. Validate input.
+2. Upload photographs securely.
+3. Save the complaint in PostgreSQL.
+4. Generate a unique complaint ID.
+5. Set initial status to SUBMITTED.
+6. Display a confirmation page.
+7. Make the complaint available to administrators.
+
+Example ID:
+
+CF-2026-000124
+
+Do not generate fake GPS coordinates.
+
+==================================================
+5. COMPLAINT TRACKING SYSTEM
+==================================================
+
+Implement a complete complaint lifecycle.
+
+Statuses:
+
+- SUBMITTED
+- UNDER REVIEW
+- VERIFIED
+- ASSIGNED
+- IN PROGRESS
+- RESOLUTION SUBMITTED
+- RESOLVED
+- REOPENED
+- REJECTED
+
+Display the complete complaint timeline.
+
+For every status change, show:
+
+- Previous status
+- New status
+- Update date and time
+- Updated by
+- Explanation or remarks
+
+Citizens should be able to view:
+
+- Complaint ID
+- Issue title
+- Submitted category
+- Location
+- Submission date
+- Current status
+- Assigned team when appropriate
+- Progress updates
+- Resolution photographs
+- Resolution notes
+
+Citizens must only access complaints that belong to their account.
+
+Do not expose internal administrator notes or private worker information.
+
+==================================================
+6. ADMINISTRATOR DASHBOARD
+==================================================
+
+Build a professional civic operations dashboard.
+
+KPI cards:
+
+- Total Complaints
+- Newly Submitted
+- Under Review
+- Verified
+- Assigned
+- In Progress
+- Resolved
+- Overdue Complaints
+
+Dashboard sections:
+
+A. Complaint Activity
+- Daily complaint submissions
+- Weekly activity
+- Monthly complaint volume
+
+B. Category Distribution
+- Potholes
+- Garbage
+- Drainage
+- Water leakage
+- Streetlights
+- Other categories
+
+C. Resolution Performance
+- Total resolved
+- Pending complaints
+- Average resolution time
+- Overdue count
+
+D. Recent Complaints
+- Complaint ID
+- Issue category
+- Locality
+- Submission date
+- Current status
+- Priority
+
+E. Operational Alerts
+- Critical complaints
+- Overdue tasks
+- Unassigned verified reports
+- Complaints awaiting resolution verification
+
+All dashboard metrics must be calculated using actual database records.
+
+No hardcoded statistics.
+
+==================================================
+7. COMPLAINT REVIEW AND VERIFICATION
+==================================================
+
+Create an administrator review interface.
+
+Administrators can:
+
+- Open complaint details.
+- View photographs.
+- Inspect submitted location.
+- Review issue descriptions.
+- Verify a complaint.
+- Reject invalid reports.
+- Request additional information.
+- Set complaint priority.
+- Add internal notes.
+
+Priorities:
+
+- LOW
+- MEDIUM
+- HIGH
+- CRITICAL
+
+Rejection must require an explanation.
+
+Maintain a record of every decision.
+
+Do not automatically classify a complaint as false simply because another similar complaint exists.
+
+==================================================
+8. DUPLICATE COMPLAINT DETECTION
+==================================================
+
+Build a duplicate detection module.
+
+Identify possible duplicates using:
+
+- Similar complaint titles.
+- Similar descriptions.
+- Same category.
+- Similar location names.
+- Nearby GPS coordinates when available.
+- Similar submission time.
+
+Allow administrators to:
+
+- Review potential duplicate groups.
+- Compare complaint photographs.
+- Compare locations.
+- Mark reports as related.
+- Link reports to an existing complaint.
+- Dismiss false duplicate suggestions.
+
+IMPORTANT:
+
+Duplicate detection should generate suggestions, not automatically delete or reject reports.
+
+Keep the original complaint history.
+
+If several citizens report the same issue, preserve the number of reports and associate them with one operational issue when appropriate.
+
+==================================================
+9. FIELD WORKER MANAGEMENT
+==================================================
+
+Create an administrator-managed worker directory.
+
+Worker fields:
+
+- Worker ID
+- Full name
+- Specialization
+- Contact information
+- Assigned area
+- Availability
+- Active assignment count
+
+Specializations:
+
+- Road Maintenance
+- Sanitation
+- Drainage
+- Electrical
+- Water Supply
+- General Maintenance
+
+Admin functions:
+
+- Add field worker.
+- Edit worker information.
+- Assign complaints.
+- Reassign tasks.
+- View workload.
+- View completed assignments.
+- Monitor pending tasks.
+
+Field workers must only access their own assigned complaints unless an administrator grants additional access.
+
+==================================================
+10. FIELD WORKER TASK MANAGEMENT
+==================================================
+
+Create a mobile-friendly field operations interface.
+
+A worker can:
+
+1. View assigned complaint.
+2. Open task details.
+3. View submitted issue photographs.
+4. View location and landmark.
+5. Accept assignment.
+6. Mark task as IN PROGRESS.
+7. Add work notes.
+8. Upload progress photographs.
+9. Submit completion evidence.
+10. Mark resolution as ready for verification.
+
+Every status update must be recorded in the database.
+
+Do not allow workers to directly mark complaints as RESOLVED.
+
+The administrator must review submitted evidence and approve or reject resolution.
+
+==================================================
+11. BEFORE AND AFTER EVIDENCE
+==================================================
+
+Implement an evidence management system.
+
+For each complaint:
+
+BEFORE:
+- Citizen-submitted photographs.
+- Original issue description.
+- Original location.
+- Submission timestamp.
+
+DURING WORK:
+- Worker progress notes.
+- Progress photographs.
+- Work status.
+
+AFTER:
+- Resolution photographs.
+- Worker completion notes.
+- Resolution submission date.
+- Administrator verification result.
+
+Build an interactive before/after image comparison viewer.
+
+Never fabricate photographs or claim that an issue has been fixed without verified evidence.
+
+==================================================
+12. SLA AND PRIORITY MANAGEMENT
+==================================================
+
+Implement an optional service-level agreement system.
+
+Default example targets:
+
+- CRITICAL: 24 hours
+- HIGH: 72 hours
+- MEDIUM: 7 days
+- LOW: 14 days
+
+Allow administrators to customize these targets.
+
+Calculate:
+
+- Time since submission.
+- Time remaining.
+- Overdue duration.
+- Resolution duration.
+
+Display:
+
+- ON TRACK
+- DUE SOON
+- OVERDUE
+- COMPLETED
+
+Clearly label SLA values as configured operational targets, not official government service guarantees.
+
+Do not include rejected or cancelled complaints in active overdue calculations.
+
+==================================================
+13. LOCATION AND AREA MANAGEMENT
+==================================================
+
+Create location-based complaint filtering.
+
+Support:
+
+- City
+- Locality
+- Street
+- Landmark
+- GPS coordinates
+
+Allow administrators to filter complaints by area.
+
+Create a location visualization with:
+
+- Complaint count by locality.
+- Category distribution by area.
+- Pending complaints by area.
+- Resolved complaints by area.
+
+If coordinates are available, show an optional map.
+
+Do not invent locations or coordinates.
+
+If no map provider is configured, show a useful location list and a link to open the selected coordinates in a public map service.
+
+For privacy, do not display exact home addresses or precise citizen coordinates publicly.
+
+==================================================
+14. REAL-TIME UPDATES
+==================================================
+
+Use Supabase Realtime.
+
+When:
+- A new complaint is submitted.
+- An administrator changes status.
+- A worker accepts an assignment.
+- A worker uploads progress.
+- A resolution is submitted.
+- An administrator approves resolution.
+
+Update the relevant dashboard and user interface without requiring manual refresh.
+
+Implement:
+- Realtime subscription status.
+- Reconnection handling.
+- Graceful fallback refresh.
+- Loading indicators.
+- Error states.
+
+All real-time updates must originate from actual database events.
+
+Do not simulate fake live activity.
+
+==================================================
+15. NOTIFICATIONS
+==================================================
+
+Create an in-app notification system.
+
+Citizen notifications:
+
+- Complaint submitted.
+- Complaint verified.
+- Complaint assigned.
+- Work started.
+- Resolution submitted.
+- Complaint resolved.
+- Complaint reopened.
+
+Administrator notifications:
+
+- New complaint received.
+- Critical complaint submitted.
+- Overdue complaint.
+- Resolution awaiting approval.
+
+Worker notifications:
+
+- New assignment.
+- Assignment changed.
+- Task deadline approaching.
+- Resolution rejected.
+
+Allow:
+- Mark as read.
+- Mark all as read.
+- Notification history.
+
+Use browser notifications only after explicit user permission.
+
+Do not claim guaranteed background push notifications without a supported push notification infrastructure.
+
+==================================================
+16. RESOLUTION VERIFICATION
+==================================================
+
+This is a critical feature.
+
+When a worker marks a task as completed:
+
+1. Save the worker's completion notes.
+2. Save uploaded after-photographs.
+3. Change status to RESOLUTION SUBMITTED.
+4. Notify the administrator.
+5. Open a resolution review panel.
+
+Administrator can:
+
+- Approve resolution.
+- Reject resolution.
+- Request further evidence.
+- Add verification notes.
+
+Only approval changes complaint status to RESOLVED.
+
+If rejected, return the complaint to the appropriate active status.
+
+Citizens should receive updates after verification.
+
+==================================================
+17. CITIZEN FEEDBACK
+==================================================
+
+After a complaint is resolved, allow the reporting citizen to submit feedback.
+
+Fields:
+
+- Satisfaction rating (1–5).
+- Resolution quality.
+- Comment.
+- Optional feedback photograph.
+
+Allow only one active feedback record per complaint, with a documented editing history if feedback is changed.
+
+Display feedback analytics to administrators.
+
+Do not expose personal feedback details publicly.
+
+==================================================
+18. ANALYTICS AND REPORTING
+==================================================
+
+Create detailed civic operations analytics.
+
+KPIs:
+
+- Total complaints.
+- Verified complaints.
+- Rejected complaints.
+- Resolved complaints.
+- Pending complaints.
+- Resolution percentage.
+- Average resolution duration.
+- SLA compliance percentage.
+- Reopened complaints.
+
+Charts:
+
+- Complaints by category.
+- Complaints by locality.
+- Monthly complaint trends.
+- Resolution time distribution.
+- Worker workload.
+- Status distribution.
+- Citizen satisfaction.
+
+Allow administrators to filter analytics by:
+
+- Date range.
+- Category.
+- Priority.
+- Locality.
+- Worker.
+- Status.
+
+All charts must use actual database records.
+
+Export:
+
+- CSV complaint report.
+- JSON report.
+- Printable HTML report.
+- Browser Print-to-PDF.
+
+==================================================
+19. DATABASE ARCHITECTURE
+==================================================
+
+Create a complete SQL file:
+
+supabase-schema.sql
+
+Tables:
+
+PROFILES
+- id
+- full_name
+- email
+- role
+- created_at
+
+CATEGORIES
+- id
+- name
+- description
+- is_active
+
+COMPLAINTS
+- id
+- complaint_code
+- citizen_id
+- category_id
+- title
+- description
+- locality
+- street
+- landmark
+- city
+- postal_code
+- latitude
+- longitude
+- priority
+- status
+- submitted_at
+- updated_at
+- resolved_at
+
+COMPLAINT_MEDIA
+- id
+- complaint_id
+- uploaded_by
+- media_type
+- storage_path
+- description
+- created_at
+
+WORKERS
+- id
+- profile_id
+- specialization
+- assigned_area
+- availability
+
+ASSIGNMENTS
+- id
+- complaint_id
+- worker_id
+- assigned_by
+- assigned_at
+- accepted_at
+- completed_at
+- status
+
+COMPLAINT_UPDATES
+- id
+- complaint_id
+- updated_by
+- previous_status
+- new_status
+- update_note
+- created_at
+
+DUPLICATE_LINKS
+- id
+- primary_complaint_id
+- related_complaint_id
+- reviewed_by
+- decision
+- created_at
+
+RESOLUTION_REVIEWS
+- id
+- complaint_id
+- worker_id
+- reviewed_by
+- decision
+- review_notes
+- reviewed_at
+
+FEEDBACK
+- id
+- complaint_id
+- citizen_id
+- rating
+- comment
+- created_at
+
+NOTIFICATIONS
+- id
+- user_id
+- title
+- message
+- related_complaint_id
+- is_read
+- created_at
+
+AUDIT_LOGS
+- id
+- actor_id
+- action
+- entity_type
+- entity_id
+- details
+- created_at
+
+Add:
+- Primary keys.
+- Foreign keys.
+- Appropriate indexes.
+- Unique complaint code constraints.
+- Timestamps.
+- Required field constraints.
+
+Use UUIDs for internal IDs.
+
+Generate human-readable complaint codes using a PostgreSQL function.
+
+==================================================
+20. DATABASE SECURITY AND ROW LEVEL SECURITY
+==================================================
+
+Implement proper Supabase RLS.
+
+Rules:
+
+CITIZENS:
+- Can insert their own complaints.
+- Can read their own complaints.
+- Can update only permitted non-administrative fields of their own reports.
+- Cannot change complaint status or priority.
+- Cannot assign workers.
+- Cannot access other citizens' private information.
+
+ADMINISTRATORS:
+- Can review complaints.
+- Can manage categories.
+- Can assign workers.
+- Can approve resolutions.
+- Can view operational analytics.
+- Can manage authorized user roles through controlled database operations.
+
+FIELD WORKERS:
+- Can view their own assigned tasks.
+- Can submit work progress.
+- Can upload evidence for assigned tasks.
+- Cannot approve their own resolutions.
+- Cannot access unrelated citizen information.
+
+IMPORTANT:
+- Enable RLS on every relevant table.
+- Never trust role values received from the frontend.
+- Prevent users from editing their own role.
+- Use secure PostgreSQL functions for privileged state transitions.
+- Validate worker assignments inside database functions.
+- Avoid unrestricted anonymous write access.
+- Never expose the Supabase service_role key.
+
+==================================================
+21. STORAGE SECURITY
+==================================================
+
+Create private Supabase Storage buckets:
+
+- complaint-reports
+- worker-evidence
+
+Requirements:
+
+- Only authorized users can upload files.
+- Citizens can access media belonging to their own complaints.
+- Assigned workers can access media needed for their assigned tasks.
+- Administrators can access authorized operational evidence.
+- File uploads must enforce reasonable size limits.
+- Validate file extensions and MIME types.
+- Prevent arbitrary file access.
+- Use signed URLs for temporary access to private photographs.
+
+Never make citizen photographs publicly accessible by default.
+
+==================================================
+22. APPLICATION SECURITY
+==================================================
+
+Implement:
+
+- Input validation.
+- Safe text rendering.
+- XSS protection.
+- File upload validation.
+- RLS enforcement.
+- Secure authentication.
+- Protected administrative operations.
+- Server-side status validation.
+- Rate limiting or abuse controls where feasible.
+- Duplicate submission prevention.
+
+Do not trust frontend-only validation for important operations.
+
+Do not expose exact personal information in public complaint summaries.
+
+==================================================
+23. DEMO MODE
+==================================================
+
+Create an explicitly labeled DEMO WORKSPACE.
+
+Include realistic sample records for:
+
+- Road potholes.
+- Garbage collection.
+- Streetlight problems.
+- Drainage complaints.
+- Water leakage.
+
+Include:
+- Different complaint statuses.
+- Multiple priorities.
+- Worker assignments.
+- Progress updates.
+- Before/after evidence.
+- Sample SLA scenarios.
+- Resolution feedback.
+
+Clearly mark every sample record as DEMO DATA.
+
+Never mix demo records with real complaint data.
+
+Do not display demo statistics as real-world civic performance.
+
+==================================================
+24. PREMIUM UI/UX REQUIREMENTS
+==================================================
+
+Design a professional civic technology interface.
+
+CITIZEN EXPERIENCE:
+- Mobile-first reporting form.
+- Simple complaint categories.
+- Photograph upload preview.
+- Location selection.
+- Complaint confirmation.
+- Clear tracking timeline.
+- Accessible typography.
+
+ADMIN DASHBOARD:
+- Professional sidebar.
+- KPI cards.
+- Complaint tables.
+- Review workspace.
+- Filters.
+- Analytics.
+- Assignment tools.
+
+FIELD WORKER EXPERIENCE:
+- Mobile-first task list.
+- Clear task details.
+- Location information.
+- Status controls.
+- Evidence upload.
+- Completion submission.
+
+Design principles:
+
+- Clean layout.
+- Professional typography.
+- Strong visual hierarchy.
+- Accessible contrast.
+- Subtle animation.
+- Responsive tables.
+- Useful empty states.
+- Loading skeletons.
+- Error messages.
+- Confirmation dialogs.
+- Toast notifications.
+
+Avoid excessive gradients and decorative widgets.
+
+==================================================
+25. PROJECT STRUCTURE
+==================================================
+
+Create the complete project:
+
+CivicFix/
+│
+├── index.html
+├── config.example.js
+├── config.js
+├── supabase-schema.sql
+├── README.md
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   ├── app.js
+│   ├── supabase-client.js
+│   ├── auth.js
+│   ├── permissions.js
+│   ├── citizen.js
+│   ├── complaints.js
+│   ├── complaint-tracker.js
+│   ├── admin.js
+│   ├── workers.js
+│   ├── assignments.js
+│   ├── duplicate-detection.js
+│   ├── locations.js
+│   ├── resolution.js
+│   ├── feedback.js
+│   ├── realtime.js
+│   ├── notifications.js
+│   ├── analytics.js
+│   ├── reports.js
+│   └── ui.js
+│
+└── assets/
+    └── logo.svg
+
+Keep the code modular and maintainable.
+
+==================================================
+26. TESTING REQUIREMENTS
+==================================================
+
+Test complete user workflows:
+
+AUTHENTICATION:
+- Citizen registration.
+- Citizen login.
+- Admin login.
+- Worker login.
+- Session persistence.
+- Role-based navigation.
+
+CITIZEN:
+- Submit complaint.
+- Upload multiple photographs.
+- Use manual location.
+- Use GPS permission.
+- View own complaint history.
+- Track complaint updates.
+
+ADMIN:
+- Review complaint.
+- Verify complaint.
+- Reject complaint with reason.
+- Set priority.
+- Assign worker.
+- Detect potential duplicates.
+- Approve or reject resolution.
+
+WORKER:
+- View assigned task.
+- Accept assignment.
+- Start work.
+- Upload progress photographs.
+- Submit resolution.
+- View assignment history.
+
+REALTIME:
+- New complaint updates.
+- Status updates.
+- Assignment changes.
+- Resolution review.
+- Notification updates.
+
+SECURITY:
+- Citizen cannot view another citizen's complaint.
+- Worker cannot access unrelated assignments.
+- Worker cannot approve resolution.
+- Citizen cannot modify administrative fields.
+- User cannot assign their own admin role.
+- Private media cannot be accessed without authorization.
+
+REPORTING:
+- Category analytics.
+- Area analytics.
+- SLA calculations.
+- Resolution reports.
+- CSV export.
+
+==================================================
+27. README AND DEPLOYMENT
+==================================================
+
+Generate a complete README.md containing:
+
+- Product overview.
+- Feature list.
+- Technology stack.
+- Project structure.
+- Supabase project setup.
+- SQL installation instructions.
+- Authentication setup.
+- RLS policy explanation.
+- Storage bucket creation.
+- Realtime configuration.
+- Admin role provisioning instructions.
+- Worker role provisioning instructions.
+- Local Windows 11 setup.
+- Netlify deployment instructions.
+- Security limitations.
+- Demo mode instructions.
+
+Configuration:
+
+SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL"
+SUPABASE_ANON_KEY = "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY"
+
+Never put the service_role key in config.js.
+
+==================================================
+28. FINAL ACCEPTANCE CRITERIA
+==================================================
+
+The application is complete only when:
+
+1. Citizens can register and submit genuine complaints.
+2. Complaint IDs are uniquely generated.
+3. Photographs upload to private storage.
+4. Citizens can track their own complaints.
+5. Administrators can verify and reject reports.
+6. Duplicate suggestions work without deleting reports.
+7. Workers can see their assigned tasks.
+8. Workers can submit progress evidence.
+9. Administrators can approve or reject resolutions.
+10. Citizens receive actual status updates.
+11. Realtime subscriptions work.
+12. RLS prevents unauthorized access.
+13. SLA calculations are based on real timestamps.
+14. Analytics reflect actual database records.
+15. Reports export correctly.
+16. No fake live data appears.
+17. No privileged keys are exposed.
+18. All main workflows work on desktop and mobile.
+
+==================================================
+FINAL DELIVERY INSTRUCTIONS
+==================================================
+
+Build the complete CivicFix application.
+
+Do not stop after building the landing page.
+
+Do not create a static dashboard.
+
+Do not leave placeholder buttons.
+
+Do not skip PostgreSQL schema or RLS.
+
+Do not trust frontend-only role checks.
+
+Do not expose private citizen information.
+
+Do not claim connection to an official municipal authority.
+
+CivicFix is an independent civic issue reporting and coordination platform unless an official organization explicitly integrates with it.
+
+Complete the backend database setup, frontend integration, authentication, storage, security policies, and real-time functionality.
+
+Verify the full citizen → administrator → worker → resolution verification workflow before declaring completion.
+
+PRIORITIES:
+1. Functional complaint lifecycle.
+2. Database security.
+3. Reliable evidence handling.
+4. Accurate status tracking.
+5. Real-time updates.
+6. Professional user experience.
+
+The final result should feel like a real civic technology SaaS platform that can be piloted in a college campus, residential community, or local organization.
